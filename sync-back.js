@@ -101,7 +101,7 @@ function runSync(){
 
 	// Keep track of the application state
 	var lastSavedMessage = parseInt( fs.readFileSync( stateFile, 'UTF-8') ); // Blocking call to make sure we have it before starting to listen for changes
-	var maxMessagesPerBatch = 12; //3; //567; // To get some changing numbers which are easier to recognize
+	var maxMessagesPerBatch = 567; // To get some changing numbers which are easier to recognize
 
 	var toId = ( parseInt(lastSavedMessage) + parseInt(maxMessagesPerBatch) );
 	console.log('['+timeString()+'] Getting a batch of changes as a list, getting items: ' + lastSavedMessage + ' - ' + toId + '. (' + maxMessagesPerBatch + ')');
