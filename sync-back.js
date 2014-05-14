@@ -34,6 +34,7 @@
 //process.exit();
  
 // Debug
+var info = false;
 var debug = false;
 
 // CLI utility
@@ -58,8 +59,10 @@ var fs = require('fs')
   , ini = require('ini');
 
 var config = ini.parse(fs.readFileSync(configFilePath, 'utf-8'))
+if(info){
 console.log('Starting sync engine: ' + timeString() );
 console.log(config);
+}
 
 // Setup Couch DB connection
 var cradle = require('cradle');
@@ -104,8 +107,10 @@ function runSync(){
 	var maxMessagesPerBatch = 567; // To get some changing numbers which are easier to recognize
 
 	var toId = ( parseInt(lastSavedMessage) + parseInt(maxMessagesPerBatch) );
+	if(info){
 	console.log('['+timeString()+'] Getting a batch of changes as a list, getting items: ' + lastSavedMessage + ' - ' + toId + '. (' + maxMessagesPerBatch + ')');
-
+	}
+	
 	// Listen to changes in the CouchDB
 	var feed = db.changes({ since: lastSavedMessage, limit: maxMessagesPerBatch, include_docs: true }, function (err, list) {
 	
@@ -127,7 +132,9 @@ function runSync(){
 		listCounter = 0;
 	
 		if(listLength == 0){
-			console.log('Stopped the sync process, nothing to sync');
+			if(info){
+				console.log('Stopped the sync process, nothing to sync');
+			}
 			exitNicely();
 		}
 	
@@ -141,7 +148,9 @@ function runSync(){
 		insertedCapcodeLinks = 0;
 		capcodeLinksAlreadyExisted = 0;
 		
-		console.log('Actual size of the retrieved batch: ' + listLength );
+		if(info){
+			console.log('Actual size of the retrieved batch: ' + listLength );
+		}
 		
 		// Reset tracking arrays
 		seqIds = [];
@@ -377,7 +386,9 @@ function insertMessageMetaData(doc, p2000MessageId, docSequence, connection){
 
 	// Check for the capcodes
 	if(typeof doc.capcodes.length != "number"){
-		console.log('The length of the capcodes list is not set since the value is not an error, but instead: ' + typeof doc.capcodes.length);
+		if(info){
+			console.log('The length of the capcodes list is not set since the value is not an number, but instead: ' + typeof doc.capcodes.length);
+		}
 		brokenMessages++; // Since processing is stopped from here on anyway; mark it as broken
 		finishProcessingMessage(docSequence, connection);
 		return;
@@ -510,7 +521,9 @@ function finishProcessingMessage(docId, connection){
 	
 	// Check if none of the messages (in the loop) called this method multiple times in a row
 	if(lastDoc == docId){
-		console.log('oops');
+		if(info){
+			console.log('Something went wrong; the last known document is equal to the one that\'s currently trying to finish.');
+		}
 	}
 	lastDoc = docId;
 	
@@ -549,17 +562,22 @@ function finishProcessingMessage(docId, connection){
 		var totalProcessed = processedMessages + numOfTestMsgs + brokenMessages;
 		
 		cli.ok('['+timeString()+'] Finished processing '+listLength+' items!');
-		console.log('- - - - - - - - - - - - - - - -');
-		console.log('Messages added: ' + insertedMessages + ' ['+processedMessages+' inserted processed, '+totalProcessed+' processed in total]');
-		console.log('> ' + messagesAlreadyExisted+' already existed, '+brokenMessages+' broken, '+numOfTestMsgs+' tests. Inserted capcodes: ' + insertedCapcodes + ', inserted capcode links: '+ insertedCapcodeLinks + ' ('+capcodeLinksAlreadyExisted+' already existed)');
-		console.log('- - - - - - - - - - - - - - - -');
-		//console.log('Skipped test messages in this batch: ' + numOfTestMsgs);
 		
+		if(info){
+			console.log('- - - - - - - - - - - - - - - -');
+			console.log('Messages added: ' + insertedMessages + ' ['+processedMessages+' inserted processed, '+totalProcessed+' processed in total]');
+			console.log('> ' + messagesAlreadyExisted+' already existed, '+brokenMessages+' broken, '+numOfTestMsgs+' tests. Inserted capcodes: ' + insertedCapcodes + ', inserted capcode links: '+ insertedCapcodeLinks + ' ('+capcodeLinksAlreadyExisted+' already existed)');
+			console.log('- - - - - - - - - - - - - - - -');
+			//console.log('Skipped test messages in this batch: ' + numOfTestMsgs);
+		}
 		
 		if(totalProcessed != listLength){
-			console.log('['+timeString()+'] The total amount of messages ('+listLength+') did not match the amount of proccessed messages ('+totalProcessed+'). Stopping the script to prevent that the highest ID is written to the state.');
+			if(info){
+				console.log('['+timeString()+'] The total amount of messages ('+listLength+') did not match the amount of proccessed messages ('+totalProcessed+'). Stopping the script to prevent that the highest ID is written to the state.');
+			}
 			exitNicely();
 		}
+		
 		
 		console.log('Last ID set to: ' + docId);
 		console.log('Last known highest ID: ' + lastKnownHighestId);
@@ -574,7 +592,9 @@ function finishProcessingMessage(docId, connection){
 		
 		var stopSeqId = 1659400;
 		//if(docId < stopSeqId){
-		console.log('Restarting the sync process'); // in '+randomDelay+'ms');
+		if(info){
+			console.log('Restarting the sync process'); // in '+randomDelay+'ms');
+		}
 			//setTimeout(function () {
 				//console.log('Restarting now');
 				runSync();
