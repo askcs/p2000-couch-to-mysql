@@ -1,7 +1,7 @@
 {
   "name": "p2000-couch-to-mysql",
   "version": "0.0.1",
-  "description": "Forward P2000 messages right from the CouchDB changes stream into a MySQL database. The night-sync.js script may be used to sync back old messages from the CouchDB to the MySQL database",
+  "description": "Forward P2000 messages right from the CouchDB changes stream into a MySQL database. The sync-back.js script may be used with continue-sync.js to sync back old messages from the CouchDB to the MySQL database",
   "main": "app.js",
   "keywords": [
     "P2000",
