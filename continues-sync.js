@@ -34,10 +34,10 @@ var j = schedule.scheduleJob(rule, function(){
 		}
 		
 		// Show running scripts
-		console.log('Running forever scripts:');
-		childchild = exec("forever list", function (error, stdout, stderr) {
-			console.log(stdout);
-		});
+		//console.log('Running forever scripts:');
+		//childchild = exec("forever list", function (error, stdout, stderr) {
+		//	console.log(stdout);
+		//});
 	});
 
 });
