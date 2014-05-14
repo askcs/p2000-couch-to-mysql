@@ -43,7 +43,7 @@ By adding this dev parameter the script will now use the config-development.ini 
 Run - Permanent setup
 ====================
 
-For running everything forever we actually use the 'forever' node plugin. Run the following command to let everything happen automatically from that moment:
+For running everything forever we actually use the 'forever' node plugin (first install forever by running: _npm install forever_). Run the following command to let everything happen automatically from that moment:
 
 _forever start continues-sync.js_
 
