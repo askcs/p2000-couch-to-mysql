@@ -171,6 +171,7 @@ function runSync(){
 					loweredMsg == 'testen' ||
 					loweredMsg.indexOf('testpage') >= 0 || 
 					loweredMsg.indexOf('test ') >= 0 || 
+					loweredMsg.indexOf('c2000 test ') >= 0 || 
 					loweredMsg.indexOf('test voor p2000') >= 0 || 
 					loweredMsg.indexOf('test voor c2000') >= 0 || 
 					loweredMsg.indexOf('pagertest') >= 0 || 
@@ -186,7 +187,7 @@ function runSync(){
 					loweredMsg.indexOf('test.') >= 0 ||
 					loweredMsg.indexOf('test!') >= 0 ||
 					loweredMsg.indexOf('testje') >= 0 ||
-						(loweredMsg.indexOf('test') && loweredMsg.length < 15) // Also exclude short messages that contain 'test' somewhere
+						(loweredMsg.indexOf('test') && loweredMsg.length < 17) // Also exclude short messages that contain 'test' somewhere
 					){
 					
 					numOfTestMsgs++;
