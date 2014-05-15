@@ -7,8 +7,8 @@ _Cleanup.php_ runs daily via a cronjob with parameter: delete=1. This will clean
 
 Examples for _p2000.php_:
 
-- http://couchdb.ask-cs.com/~jordi/p2000/p2000.php?code=1400999&callback=jQuery123&capcodelimit=2
-- http://couchdb.ask-cs.com/~jordi/p2000/p2000.php?code=1420999,1400999&callback=jQuery123&limit=3
+- p2000.php?code=1400999&callback=jQuery123&capcodelimit=2
+- p2000.php?code=1420999,1400999&callback=jQuery123&limit=3
 
 Params:
 
