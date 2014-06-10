@@ -434,7 +434,7 @@ function insertMessageMetaData(doc, p2000MessageId, docSequence, connection){
 		//console.log('Checking capcode: ' + processingCapcode);
 		
 		// Skip the 'Brandweer landelijk' capcode which is almost set for every P2000 message
-		if(processingCapcode == '2029568'){
+		if(processingCapcode == '2029568' || processingCapcode == '2029569'){
 			//console.log( 'Skipped adding capcode: ' + processingCapcode );
 			loopCounter++;
 			

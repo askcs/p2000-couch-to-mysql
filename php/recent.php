@@ -23,7 +23,8 @@ while($row = mysqli_fetch_assoc($result)) {
 	
 	//echo '<pre>'.print_r($row,1).'</pre>';
 	
-	echo $row['timestamp'].' ['.$row['id'].'] - '.$row['message'];
+	echo date('H:i:s d-m-Y', ($row['timestamp']/1000)).' ['.$row['id'].'] - '.$row['message'];
+	//echo $row['timestamp'].' ['.$row['id'].'] - '.$row['message'];
 	echo '<ul>';
 	while($capcode = mysqli_fetch_assoc($capcodes)) {
 		echo '<li>'.$capcode['capcode'].': '.$capcode['name'].' ('.$capcode['service'].') / '.$capcode['region'].', '.$capcode['city'].'</li>';
