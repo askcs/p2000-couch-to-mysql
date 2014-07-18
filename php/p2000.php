@@ -49,6 +49,13 @@ if( is_array( $_REQUEST['code'] ) ){
 	$capcodesArray = explode(',', $capcodes);
 }
 
+// Add a capcode with a prepended 0 (zero) in case of a capcode length of 6 numbers
+foreach($capcodesArray as $capcode){
+	if(strlen($capcode) == 6){
+		$capcodesArray[] = "0".$capcode;
+	}
+}
+
 // Get the DB id for the capcode that's requested
 $capcodeIdsArray = array();
 $dbid = $link->query('SELECT * FROM capcodes WHERE capcode IN ("'.implode('","', $capcodesArray).'")');
@@ -57,8 +64,21 @@ while($capcodeIdRow = mysqli_fetch_assoc($dbid)) {
 }
 
 // Query the latest P2000 messages for a specific capcode
-$result = $link->query('SELECT * FROM messages WHERE id IN (SELECT message_id FROM message_has_capcode WHERE capcode_id IN ("'.implode('","', $capcodeIdsArray).'") ORDER BY message_id DESC) ORDER BY id DESC LIMIT '.$limit);
+$sql =	'SELECT * FROM `messages` '.
+	'WHERE id IN ('.
+		'SELECT message_id FROM `message_has_capcode` '.
+		'WHERE capcode_id IN ("'.implode('","', $capcodeIdsArray).'") '.
+		'ORDER BY message_id DESC) '.
+	'ORDER BY id DESC LIMIT '.$limit;
+$result = $link->query( $sql );
 
+/**
+if ( tymon_debugs ) {
+    $handle = fopen("query.log", "ab");
+    fwrite($handle, date("Y-m-d H:i:s "). $sql ."\n" );
+    fclose($handle);
+}
+/**/
 
 // Display the data
 while($row = mysqli_fetch_assoc($result)) {
