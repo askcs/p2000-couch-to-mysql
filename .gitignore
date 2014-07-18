@@ -1,3 +1,5 @@
 node_modules
 config-development.ini
 config-production.ini
+php/config.php
+php/query.log
