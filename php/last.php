@@ -4,8 +4,12 @@ require_once('config.php');
 // Query
 $result = $link->query('SELECT * FROM messages ORDER BY id DESC LIMIT 1');
 
-$x = $result->mysqli_fetch_row();
+$last = $result->fetch_assoc();
 
-print_r( $x );
+if(isset($_GET['x'])){
+	print_r($last);
+}
+
+echo $last['timestamp'];
 
 ?>
