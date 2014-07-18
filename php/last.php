@@ -10,6 +10,6 @@ if(isset($_GET['x'])){
 	print_r($last);
 }
 
-echo $last['timestamp'];
+echo (($last['timestamp'] - time()) / 1000);
 
 ?>
