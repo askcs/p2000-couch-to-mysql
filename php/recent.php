@@ -1,11 +1,18 @@
 <?php
 require_once('config.php');
 
-// Inject sql WHERE part?
+// Inject sql WHERE part for the ID filtering
 $fromId = (isset($_GET['id'])) ? $_GET['id'] : null;
 $sqlWhere = '';
 if(isset($fromId) && $fromId != null){
 	$sqlWhere = 'WHERE id <= '.$fromId.' ';
+}
+
+// Inject search query filtering
+$q = (isset($_GET['q'])) ? $_GET['q'] : null;
+$sqlWhere = '';
+if(isset($q) && $q != null){
+	$sqlWhere = 'WHERE message LIKE %'.$q.'% ';
 }
 
 // Query the latest P2000 messages
