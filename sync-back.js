@@ -81,7 +81,7 @@ var pool = mysql.createPool({
 	database : config.mysql.database,
 	supportBigNumbers	: true,
 	waitForConnections	: true,
-	connectionLimit		: 2
+	connectionLimit		: 1
 });
 
 var stateFile = 'state/last-mass-synced-msg-seq';
